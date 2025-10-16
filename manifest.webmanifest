@@ -2,7 +2,7 @@
   "name": "Radio Kalidad",
   "short_name": "Kalidad",
   "theme_color": "#007BFF",
-  "background_color": "#000000",
+  "background_color": "#0000FF",
   "display": "standalone",
   "start_url": "./index.html",
   "icons": [
