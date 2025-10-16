@@ -1,0 +1,21 @@
+{
+  "name": "Radio Naranjos",
+  "short_name": "Radio Naranjos",
+  "start_url": "https://radionaranjos.com",
+  "display": "standalone",
+  "background_color": "#FFA500",
+  "theme_color": "#FFA500",
+  "description": "Escucha Radio Naranjos en vivo desde la Huasteca.",
+  "icons": [
+    {
+      "src": "https://i.postimg.cc/nzVkBbwD/IMG-20251004-WA0085-1.jpg",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.postimg.cc/nzVkBbwD/IMG-20251004-WA0085-1.jpg",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

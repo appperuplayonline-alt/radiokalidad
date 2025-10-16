@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta name="theme-color" content="#FFA500">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Radio Naranjos">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="https://i.postimg.cc/nzVkBbwD/IMG-20251004-WA0085-1.jpg">
+
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>Radio Naranjos</title>
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #000;
+        overflow: hidden;
+    }
+    .contenedor {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    .slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+    }
+    .slider img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+    object-fit: cover; object-position: center;}
+    .slider img.activa {
+        opacity: 1;
+    }
+    @keyframes zoomUp {
+        0% { transform: scale(1) translateY(0); }
+        100% { transform: scale(1.1) translateY(-2vh); }
+    }
+    @keyframes zoomDown {
+        0% { transform: scale(1) translateY(0); }
+        100% { transform: scale(1.1) translateY(2vh); }
+    }
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+    
+    .play-btn {
+        position: absolute;
+        bottom: 28vh;
+        left: 50%;
+        transform: translateX(-55%);
+        z-index: 3;
+        width: 25vw;
+        height: 25vw;
+        background:#000000;
+        border: 3px solid white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .play-btn svg {
+        width: 60%;
+        height: 60%;
+        fill: white;
+    }
+    
+.mensaje {
+    position: absolute;
+    bottom: 10vh; /* igual que antes */
+    left: 15%; /* para que empiece después del botón de TV */
+    width: 60%; /* para que termine antes de redes sociales */
+    overflow: hidden;
+    background: transparent;
+    color: white; /* cambiado a amarillo */
+    font-family: Arial, sans-serif;
+    font-weight: 900;
+    font-size: 0.9em;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 4;
+}
+
+    .mensaje-secundario {
+        font-size: 1.8em; /* Radio Naranjos más grande */
+        font-weight: 900; /* Radio Naranjos mucho más gruesa */
+        color: #FFFFFF; /* Celeste igual al botón */
+        margin-top: 0.2em;
+        line-height: 1;
+    }
+    .boton-rojo {
+    position: absolute;
+    bottom: 14vh;
+    right: 10%;
+    width: 10vw;
+    height: 10vw;
+    background-color: #000000;
+    border-radius: 50%;
+    border: 4px solid white;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mensaje {
+    overflow: hidden; /* para que el texto que se mueva no se salga */
+}
+.scroll-text {
+    display: inline-block;
+    padding-left: 140%; /* arranca desde fuera de la vista a la derecha */
+    animation: desplazamientoHorizontal 8s linear infinite;
+    white-space: nowrap;
+}
+@keyframes desplazamientoHorizontal {
+    0% { transform: translateX(50px); }
+    100% { transform: translateX(-100%); }
+}
+
+
+.web-texto {
+    position: absolute;
+    bottom: 0vh;
+    left: 0;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+        padding: 5px 10px;
+    z-index: 10;
+    white-space: normal;
+    word-wrap: break-word;
+    text-align: center;
+
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-style: italic;}
+
+
+.redes-sociales {
+    position: absolute;
+    top: 40%;
+    left: 0;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 20;
+    padding-left: 5px;
+}
+.redes-sociales a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 7vw;
+    height: 7vw;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    border: 3px solid white;
+}
+.redes-sociales a img {
+    width: 7vw;
+    height: 7vw;
+}
+.redes-sociales a.facebook { background-color: #1877F2; }
+
+.redes-sociales a.telegram { background-color: #0088cc; }
+
+
+
+
+
+.redes-sociales a.instagram { background-color: #E1306C; }
+.redes-sociales a.instagram img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
+.redes-sociales a.tiktok img {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+}
+
+
+.redes-sociales a.youtube img { width: 100%; height: 100%; object-fit: contain; }
+
+
+.redes-sociales {
+    position: absolute;
+    top: 70%;
+    left: 10px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 20;
+}
+.redes-sociales a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 7vw;
+    height: 7vw;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    border: 3px solid white;
+    overflow: hidden;
+}
+.redes-sociales a img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+.redes-sociales a.facebook { background-color: #1877F2; }
+
+.redes-sociales a.telegram { background-color: #0088cc; }
+
+
+
+
+.redes-sociales a.youtube img {
+    width: 60%;
+    height: 60%;
+}
+
+
+
+.redes-sociales a.instagram { background-color: #E1306C; }
+.redes-sociales a.instagram img {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+}
+
+.redes-sociales a.tiktok img {
+    width: 60%;
+    height: 60%;
+}
+
+
+.redes-sociales a {
+    position: relative;
+    overflow: visible;
+}
+.redes-sociales a::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    animation: onda 1.5s infinite ease-out;
+}
+@keyframes onda {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+
+.boton-compartir {
+    position: absolute;
+    bottom: 3vh;
+    right: 5vw;
+    width: 7vw;
+    height: 7vw;
+    background-color: transparent;
+    border: none;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.boton-compartir img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+.boton-mensaje {
+    position: absolute;
+    top: 2vh;
+    right: 5vw;
+    width: 7vw;
+    height: 7vw;
+    background-color: transparent;
+    border: none;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.boton-mensaje img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+.boton-menu {
+    position: absolute;
+    top: 2vh;
+    left: 2vw;
+    width: 7vw;
+    height: 7vw;
+    background-color: transparent;
+    border: none;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.boton-menu img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.menu-lateral {
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 260px;
+    height: 100%;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+    z-index: 999;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    font-family: Arial, sans-serif;
+}
+.menu-lateral.abierto {
+    left: 0;
+}
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 998;
+    display: none;
+}
+.menu-overlay.visible {
+    display: block;
+}
+.menu-header {
+    text-align: center;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+
+    padding: 0;}
+.menu-logo {
+    width: 15vw;
+
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0;}
+.menu-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.menu-lista li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: black;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: bold;
+}
+.menu-lista li a img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+.menu-lateral h4 {
+    padding: 10px 15px;
+    margin: 0;
+    color: #888;
+    font-size: 13px;
+    text-transform: uppercase;
+    border-top: 1px solid #ccc;
+}
+
+
+.chat-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+.chat-contenido {
+    background-color: white;
+    margin: 5% auto;
+    padding: 10px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+}
+.cerrar-chat {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.cerrar-chat:hover {
+    color: red;
+}
+
+
+.web-side-panel {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 3000;
+    transition: right 0.3s ease;
+}
+.web-side-panel.abierto {
+    right: 0;
+}
+.web-side-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 2999;
+    display: none;
+}
+.web-side-overlay.visible {
+    display: block;
+}
+.web-side-panel iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.web-side-close-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 100%;
+    z-index: 3100;
+    background: transparent;
+}
+
+
+
+/* --- Ajustes de diseño fluido --- */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.play-btn {
+    width: 18vw;
+    height: 18vw;
+}
+
+.boton-rojo {
+    width: 12vw;
+    height: 12vw;
+}
+
+.redes-sociales a {
+    width: 7vw;
+    height: 7vw;
+}
+
+.mensaje {
+    font-size: 2.5vw;
+}
+
+.mensaje-secundario {
+    font-size: 4vw;
+}
+
+.slider img {
+    object-fit: cover;
+object-fit: cover; object-position: center;}
+
+/* Pantallas pequeñas */
+@media (max-width: 400px) {
+    
+    .play-btn {
+        width: 20vw;
+        height: 20vw;
+    }
+    .boton-rojo {
+        width: 14vw;
+        height: 14vw;
+    }
+}
+
+/* Pantallas grandes */
+@media (min-width: 768px) {
+    
+    .play-btn {
+        width: 15vw;
+        height: 15vw;
+    }
+}
+
+
+/* --- Versión fluida más grande --- */
+
+
+.play-btn {
+    width: 25vw; /* antes 18vw */
+    height: 25vw;
+}
+
+.boton-rojo {
+    width: 18vw; /* antes 12vw */
+    height: 18vw;
+}
+
+.redes-sociales a {
+    width: 8vw; /* antes 6vw */
+    height: 8vw;
+}
+
+.mensaje {
+    font-size: 3vw; /* antes 2.5vw */
+}
+
+.mensaje-secundario {
+    font-size: 5vw; /* antes 4vw */
+}
+
+.slider img {
+    object-fit: cover;
+object-fit: cover; object-position: center;}
+
+/* Pantallas pequeñas */
+@media (max-width: 400px) {
+    
+    .play-btn {
+        width: 30vw;
+        height: 30vw;
+    }
+    .boton-rojo {
+        width: 20vw;
+        height: 20vw;
+    }
+    .redes-sociales a {
+        width: 9vw;
+        height: 9vw;
+    }
+}
+
+/* Pantallas grandes */
+@media (min-width: 768px) {
+    
+    .play-btn {
+        width: 20vw;
+        height: 20vw;
+    }
+    .boton-rojo {
+        width: 15vw;
+        height: 15vw;
+    }
+    .redes-sociales a {
+        width: 7vw;
+        height: 7vw;
+    }
+}
+
+
+/* Botones de redes sociales más grandes */
+.redes-sociales a {
+    width: 10vw; /* antes 8vw */
+    height: 10vw;
+}
+
+@media (max-width: 400px) {
+    .redes-sociales a {
+        width: 12vw; /* antes 9vw */
+        height: 12vw;
+    }
+}
+
+@media (min-width: 768px) {
+    .redes-sociales a {
+        width: 9vw; /* antes 7vw */
+        height: 9vw;
+    }
+}
+
+
+
+@keyframes girarConPausa {
+    0% { transform: translateX(-50%) rotate(0deg); }
+    40% { transform: translateX(-50%) rotate(360deg); }
+    60% { transform: translateX(-50%) rotate(360deg); } /* pausa */
+    100% { transform: translateX(-50%) rotate(720deg); }
+}
+
+
+
+@keyframes girarConPausa {
+    0%   { transform: translateX(-50%) rotate(0deg); }
+    40%  { transform: translateX(-50%) rotate(360deg); }
+    60%  { transform: translateX(-50%) rotate(360deg); } /* pausa */
+    100% { transform: translateX(-50%) rotate(720deg); }
+}
+.logo {
+    position: absolute;
+    top: 10vh !important;
+    left: 50% !important;
+    transform: translateX(-50%);
+    z-index: 2;
+    width: 45vw;
+    height: 45vw; /* cuadrado para que no se aplaste */
+    max-width: 360px; /* opcional en pantallas grandes */
+    max-height: 360px;
+    border-radius: 50%;
+    border: 5px solid white !important;
+    animation: girarConPausa 6s linear infinite;
+    transform-origin: center;
+    pointer-events: none;
+    object-fit: cover; /* recorta sin estirar */
+    object-position: center; /* centra la carátula */
+}
+
+
+
+.overlay-colores {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(270deg,
+        red, darkorange, orange, gold, yellow, chartreuse, green, cyan,
+        deepskyblue, blue, indigo, violet, magenta, crimson);
+    background-size: 2000% 2000%;
+    animation: moverColores 6s linear infinite; /* rápido */
+    opacity: 0.45; /* más visible */
+    z-index: 1;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    filter: saturate(1.2);
+}
+@keyframes moverColores {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+#webTexto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    color: white;
+    overflow: hidden;
+    max-width: 90%;
+    margin: 0 auto;
+}
+.scroll-linea {
+    display: inline-block;
+    white-space: nowrap;
+    animation: none;
+}
+#artista {
+    font-weight: bold;
+    font-size: 1.4em;
+
+    color: #A020F0;
+    font-size: 1.1em;}
+#cancion {
+    font-size: 1em;
+
+    font-size: 0.85em;}
+@keyframes desplazamiento {
+    0% { transform: translateX(calc(100% - 12vw - 50px)); }
+    100% { transform: translateX(-100%); }
+}
+
+@keyframes pulseLogo {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+.menu-logo {
+    animation: pulseLogo 1.5s infinite;
+}
+
+.slider video {
+    width: 110%;   /* un poco más ancho */
+    height: 110%;  /* un poco más alto */
+    object-fit: cover;
+    position: absolute;
+    top: -300px; /* subido 300px */
+    left: -5%;   /* centrar el zoom */
+}
+#artista, #cancion { color: #FFFFFF; }
+
+@media screen and (max-width: 768px) {
+  body, html { margin: 0; padding: 0; width: 100%; overflow-x: hidden; }
+  img, video, iframe { max-width: 100%; height: auto; }
+  .logo, .overlay, canvas, div, section { max-width: 100%; box-sizing: border-box; }
+}
+
+video { object-fit: cover; transform: scale(1.25); transition: transform 0.3s ease; }
+</style>
+<script>
+window.__lastCover = window.__lastCover || "";
+</script>
+<script>
+window.__lastCover = window.__lastCover || "";
+window.__lastSongKey = window.__lastSongKey || "";
+</script>
+
+
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<link href="icons/icon-192.png" rel="apple-touch-icon"/>
+<style>
+/* --- PWA Install UI (injetado) --- */
+#pwaInstallOverlay{
+  position:fixed; inset:0;
+  background:rgba(10,10,10,.35);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  display:none; z-index:100000;
+}
+#pwaInstallOverlay.visible{ display:block; }
+
+#pwaInstallFab{
+  position:fixed; right:20px; bottom:22px;
+  display:none; z-index:100001; cursor:pointer; touch-action:manipulation;
+  padding:10px 12px; border-radius:999px; font-weight:800;
+  color:#fff; border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.13);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  box-shadow:0 14px 36px rgba(0,0,0,.45);
+  outline:none; align-items:center; gap:10px;
+  animation:pwaFloat 2.2s ease-in-out infinite;
+}
+#pwaInstallFab.visible{ display:inline-flex; }
+#pwaInstallFab img{ width:32px; height:32px; border-radius:8px; }
+
+#pwaInstallClose{
+  position:fixed; top:14px; right:14px; z-index:100002;
+  width:42px; height:42px; border-radius:999px; border:1px solid rgba(255,255,255,.35);
+  display:none; align-items:center; justify-content:center; cursor:pointer;
+  color:#fff; background:rgba(255,255,255,.13);
+  backdrop-filter: blur(10px) saturate(180%);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  box-shadow:0 10px 26px rgba(0,0,0,.35);
+}
+#pwaInstallClose.visible{ display:flex; }
+
+@keyframes pwaFloat{
+  0%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } 100%{ transform:translateY(0) }
+}
+#artista, #cancion { color: #FFFFFF; }
+
+@media screen and (max-width: 768px) {
+  body, html { margin: 0; padding: 0; width: 100%; overflow-x: hidden; }
+  img, video, iframe { max-width: 100%; height: auto; }
+  .logo, .overlay, canvas, div, section { max-width: 100%; box-sizing: border-box; }
+}
+
+video { object-fit: cover; transform: scale(1.25); transition: transform 0.3s ease; }
+</style><meta content="#111111" name="msapplication-TileColor"/><style>
+/* iOS instruction panel */
+#pwaIosCard{
+  position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:min(92vw,520px); max-width:92vw;
+  background:rgba(18,18,18,.6);
+  color:#fff; border:1px solid rgba(255,255,255,.2);
+  border-radius:20px; padding:18px 16px; z-index:100003;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  box-shadow:0 16px 40px rgba(0,0,0,.5);
+  display:none;
+}
+#pwaIosCard.visible{ display:block; }
+#pwaIosCard h3{ margin:0 0 10px 0; font-size:18px; }
+#pwaIosCard ol{ margin:0; padding-left:20px; }
+#pwaIosCard .small{ opacity:.85; font-size:13px; margin-top:10px; }
+#pwaIosCard .row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+#pwaIosCard .actions{ margin-top:14px; display:flex; justify-content:flex-end; gap:10px; }
+button.btn-ghost{
+  padding:8px 12px; border-radius:12px;
+  background:rgba(255,255,255,.12);
+  color:#fff; border:1px solid rgba(255,255,255,.25);
+  cursor:pointer;
+}
+#artista, #cancion { color: #FFFFFF; }
+
+@media screen and (max-width: 768px) {
+  body, html { margin: 0; padding: 0; width: 100%; overflow-x: hidden; }
+  img, video, iframe { max-width: 100%; height: auto; }
+  .logo, .overlay, canvas, div, section { max-width: 100%; box-sizing: border-box; }
+}
+
+video { object-fit: cover; transform: scale(1.25); transition: transform 0.3s ease; }
+</style></meta><link href="manifest.webmanifest" rel="manifest"/><meta content="#000000" name="theme-color"/></head>
+<body>
+<div class="web-side-panel" id="webSidePanel">
+<div class="web-side-close-layer" id="webSideCloseLayer"></div>
+<iframe allow="autoplay" allowtransparency="yes" frameborder="0" height="450" marginheight="0" marginwidth="0" scrolling="auto" src="https://radionaranjos.com" width="100%"></iframe>
+</div>
+<div class="web-side-overlay" id="webSideOverlay"></div>
+<div class="chat-modal" id="chatModal">
+<div class="chat-contenido">
+<span class="cerrar-chat" id="cerrarChat">×</span>
+</div>
+</div>
+<div class="menu-lateral" id="menuLateral">
+<div class="menu-header">
+<img alt="Logo" class="menu-logo" src="https://i.postimg.cc/nzVkBbwD/IMG-20251004-WA0085-1.jpg"/>
+</div>
+<ul class="menu-lista">
+<li><a href="https://wa.me/527681039553"><img src="https://cdn-icons-png.flaticon.com/512/561/561127.png"/> Hable con nosotros</a></li>
+<li><a href="https://radionaranjos.com"><img src="https://cdn-icons-png.flaticon.com/512/25/25694.png"/> Acerca de</a></li>
+</ul>
+<h4>Redes Sociales</h4>
+<ul class="menu-lista">
+<li><a href="https://www.facebook.com/share/1EvQqMPeE4/"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png"/> Facebook</a></li>
+<li><a href="https://www.instagram.com/djgato_chachapoyas?utm_source=qr&amp;igsh=MWxlaGU2ZnRxczRlYg=="><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"/> Instagram</a></li>
+<li><a href="https://twitter.com/"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png"/> Twitter</a></li>
+<li><a href="https://wa.me/527681039553"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"/> WhatsApp</a></li>
+<li><a href="https://youtube.com"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"/> YouTube</a></li>
+<li></li>
+</ul>
+<h4>Más Información</h4>
+<ul class="menu-lista">
+<li><a href="https://radionaranjos.com" id="linkCalifica"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"/> Nos califica</a></li>
+<li><a href="https://wa.me/527681039553" id="btnCompartirMenu"><img src="https://cdn-icons-png.flaticon.com/512/929/929610.png"/> Compartir</a></li>
+<li><a href="https://políticas.peruplay.lat"><img src="https://cdn-icons-png.flaticon.com/512/942/942799.png"/> Términos y Políticas</a></li>
+<li style="text-align:center; font-size:20px; padding:18px 0;">
+</li>
+</ul>
+</div>
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="contenedor"><a class="boton-menu" href="https://wa.me/527681039553"><img alt="Menú" src="https://cdn-icons-png.flaticon.com/512/1828/1828859.png"/></a><a class="boton-mensaje" href="https://wa.me/527681039553" target="_blank"><img alt="Mensaje" src="https://cdn-icons-png.flaticon.com/512/1380/1380338.png"/></a>
+<div class="slider">
+<video autoplay="" loop="" muted="" playsinline="">
+<source src="https://aguaytiaserver.net/video.mp4" type="video/mp4"/>
+            Tu navegador no soporta video en HTML5.
+        </video>
+</div>
+<div class="overlay-colores"></div>
+<img alt="Fondo" class="overlay" src="https://i.postimg.cc/BQJqFhq6/Picsart-25-10-15-11-11-43-318.png"/>
+<img alt="Logo" class="logo" src="https://i.postimg.cc/nzVkBbwD/IMG-20251004-WA0085-1.jpg"/>
+<div class="play-btn" id="playBtn">
+<svg viewbox="0 0 64 64">
+<polygon points="16,12 56,32 16,52"></polygon>
+</svg>
+</div>
+<audio id="audioPlayer" src="https://streaming.hostpannel.lat:8050/stream"></audio>
+<div class="mensaje">
+<span class="scroll-text" style="color:#FFA500;">DESDE EL PARAÍSO DE LA HUASTECA</span>
+<div class="mensaje-secundario">Radio Naranjos</div>
+</div>
+<div class="boton-rojo" id="btnTV">
+<svg fill="white" height="70%" viewbox="0 0 64 64" width="70%" xmlns="http://www.w3.org/2000/svg">
+<rect height="32" rx="3" ry="3" width="48" x="8" y="16"></rect>
+<rect height="4" width="24" x="20" y="50"></rect>
+<polygon points="24,12 32,4 40,12"></polygon>
+</svg>
+</div>
+<div class="web-texto" id="webTexto">
+<div id="artista"></div>
+<div id="cancion"></div>
+</div>
+<!-- Redes Sociales -->
+<div class="redes-sociales">
+<a class="facebook" href="https://www.facebook.com/share/1EvQqMPeE4/" target="_blank">
+<img alt="Facebook" src="https://cdn-icons-png.flaticon.com/512/733/733547.png"/>
+</a>
+<a class="whatsapp" href="https://wa.me/527681039553" target="_blank">
+<img alt="WhatsApp" src="https://cdn-icons-png.flaticon.com/512/733/733585.png"/>
+</a>
+
+  <a class="youtube" href="https://youtube.com" target="_blank">
+    <img alt="YouTube" src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"/>
+  </a>
+  
+</div>
+<a class="boton-compartir" href="https://wa.me/527681039553" id="btnCompartir"><img alt="Compartir" src="https://cdn-icons-png.flaticon.com/512/929/929610.png"/></a></div>
+<script>
+    let indice = 0;
+const imagenes = document.querySelectorAll('.slider img');
+const audioPlayer = document.getElementById('audioPlayer');
+const playBtn = document.getElementById('playBtn');
+
+    if (imagenes.length > 0) {
+    function aplicarAnimacion(img) {
+        const anim = img.getAttribute('data-anim');
+        img.style.animation = anim + ' 3s ease-in-out forwards';
+    }
+        aplicarAnimacion(imagenes[indice]);
+
+    setInterval(() => {
+        imagenes[indice].classList.remove('activa');
+        indice = (indice + 1) % imagenes.length;
+        imagenes[indice].classList.add('activa');
+            aplicarAnimacion(imagenes[indice]);
+    }, 3000);
+}
+
+
+    let isPlaying = false;
+    playBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            audioPlayer.pause();
+            playBtn.style.background = '#000000'; // Pausado (azul verdoso) // Pausado (negro)
+            isPlaying = false;
+            playBtn.innerHTML = '<svg viewBox="0 0 64 64"><polygon points="16,12 56,32 16,52" /></svg>';
+        } else {
+            audioPlayer.play();
+            playBtn.style.background = '#FFA500'; // Reproduciendo (rojo)
+            isPlaying = true;
+            playBtn.innerHTML = '<svg viewBox="0 0 64 64"><rect x="16" y="12" width="10" height="40"/><rect x="38" y="12" width="10" height="40"/></svg>';
+        }
+    });
+</script>
+<script>
+
+async function actualizarMetadata() {
+    try {
+        const res = await fetch("https://streaming.hostpannel.lat:2020/json/stream/8154");
+        const data = await res.json();
+
+        let cancion = "";
+        let artista = "Radio Naranjos";
+
+        if (data.songtitle) {
+            const partes = data.songtitle.split(" - ");
+            if (partes.length >= 2) {
+                cancion = partes[0].trim();
+                artista = partes[1].trim();
+            } else {
+                cancion = data.songtitle.trim();
+            }
+        } else if (data.title) {
+            cancion = data.title.trim() || "En Vivo";
+            artista = data.artist ? data.artist.trim() : artista;
+        } else if (data.history && data.history.length > 0) {
+            cancion = data.history[0].replace(/^\d+\.\)\s*/, "").trim();
+        } else {
+            cancion = "Transmitiendo en vivo";
+        }
+
+        // [Removido código de carátula automática]
+        const logoEl = document.querySelector(".logo");
+        // [Removido código de carátula automática]
+
+        const artistaEl = document.getElementById("artista");
+        const cancionEl = document.getElementById("cancion");
+        if (artistaEl) artistaEl.textContent = artista;
+        if (cancionEl) cancionEl.textContent = cancion;
+
+        if (window.__updateMediaSession) {
+            window.__updateMediaSession({ title: cancion, artist: artista, artworkSrc: cover });
+        }
+
+    } catch (e) {
+        console.error("Error obteniendo metadata:", e);
+    }
+}
+// Esperar 30 segundos antes de la primera actualización
+setTimeout(() => {
+  console.log('Iniciando actualización de metadata tras 30s...');
+  setInterval(actualizarMetadata, 1000); // Luego cada 1s
+}, 30000);
+
+</script>
+<script>
+document.getElementById('btnCompartir').addEventListener('click', function(e) {
+    e.preventDefault();
+    if (navigator.share) {
+        navigator.share({
+            title: 'Radio Naranjos',
+            text: 'Escucha Radio Naranjos en vivo',
+            url: window.location.href
+        }).catch(err => console.log('Error al compartir:', err));
+    } else {
+        alert('La función de compartir no está soportada en este navegador.');
+    }
+});
+</script>
+<script>
+const btnMenu = document.querySelector('.boton-menu');
+const menuLateral = document.getElementById('menuLateral');
+const menuOverlay = document.getElementById('menuOverlay');
+
+btnMenu.addEventListener('click', (e) => {
+    e.preventDefault();
+    menuLateral.classList.add('abierto');
+    menuOverlay.classList.add('visible');
+});
+menuOverlay.addEventListener('click', () => {
+    menuLateral.classList.remove('abierto');
+    menuOverlay.classList.remove('visible');
+});
+</script>
+<script>
+const webSidePanel = document.getElementById('webSidePanel');
+const webSideOverlay = document.getElementById('webSideOverlay');
+const webSideCloseLayer = document.getElementById('webSideCloseLayer');
+let touchStartX = 0;
+let touchEndX = 0;
+let isOpen = false;
+
+// Abrir deslizando desde el borde derecho
+window.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+});
+window.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].clientX;
+    let screenWidth = window.innerWidth;
+    if (!isOpen && touchStartX > screenWidth - 50 && touchEndX < touchStartX - 30) {
+        webSidePanel.classList.add('abierto');
+        webSideOverlay.classList.add('visible');
+        isOpen = true;
+    }
+});
+
+// Cerrar deslizando dentro de la capa invisible
+webSideCloseLayer.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+});
+webSideCloseLayer.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].clientX;
+    if (isOpen && touchEndX > touchStartX + 30) {
+        webSidePanel.classList.remove('abierto');
+        webSideOverlay.classList.remove('visible');
+        isOpen = false;
+    }
+});
+
+// Cerrar tocando overlay
+webSideOverlay.addEventListener('click', () => {
+    webSidePanel.classList.remove('abierto');
+    webSideOverlay.classList.remove('visible');
+    isOpen = false;
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+function abrirModalTV() {
+    const audioPlayer = document.getElementById('audioPlayer');
+    let wasPlaying = false;
+    if (audioPlayer && !audioPlayer.paused) {
+        wasPlaying = true;
+        audioPlayer.pause();
+    }
+
+    const contenedor = document.querySelector('.contenedor');
+    if (contenedor) {
+        contenedor.style.filter = 'blur(40px)';
+        contenedor.style.transition = 'filter 0.3s ease';
+    }
+
+    // Estilos para burbujas flotantes
+    if (!document.getElementById('tv-bubbles-style-float')) {
+        const style = document.createElement('style');
+        style.id = 'tv-bubbles-style-float';
+        style.textContent = `
+        @keyframes floatAround {
+            0%   { transform: translate(var(--startX,0), var(--startY,0)) scale(var(--scale,1)); opacity: 0; }
+            10%  { opacity: 0.10; }
+            50%  { transform: translate(calc(var(--startX,0) + var(--driftX,20px)), calc(var(--startY,0) + var(--driftY,20px))) scale(calc(var(--scale,1) * 1.05)); }
+            100% { transform: translate(var(--endX,0), var(--endY,-100vh)) scale(calc(var(--scale,1) * 1.1)); opacity: 0; }
+        }
+        .tv-bubbles-container-float {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 10000;
+        }
+        .tv-bubble-float {
+            position: absolute;
+            border-radius: 50%;
+            animation-name: floatAround;
+            animation-timing-function: ease-in-out;
+            will-change: transform, opacity;
+            opacity: 0.10;
+            box-shadow: 0 0 12px rgba(255,255,255,0.25);
+            filter: blur(var(--blur,0.5px));
+        }`;
+        document.head.appendChild(style);
+    }
+
+    // Modal TV
+    const modal = document.createElement('div');
+    Object.assign(modal.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100%',
+        height: '100%',
+        background: 'rgba(255, 255, 255, 0.08)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: '9999',
+        padding: '20px',
+        boxSizing: 'border-box'
+    });
+
+    // Contenedor de burbujas
+    const bubbles = document.createElement('div');
+    bubbles.className = 'tv-bubbles-container-float';
+    modal.appendChild(bubbles);
+
+    // Generación de burbujas
+    let bubbleInterval;
+    let bubbleCount = 0;
+    const BUBBLE_CAP = 200;
+    const colors = [
+        'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,0,0,0.7))',
+        'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(0,150,255,0.7))',
+        'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(0,200,120,0.7))',
+        'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,180,0,0.7))',
+        'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(190,0,255,0.7))'
+    ];
+
+    function spawnBubble() {
+        if (bubbleCount > BUBBLE_CAP) return;
+        const b = document.createElement('span');
+        b.className = 'tv-bubble-float';
+        const size = Math.random() * 80 + 30;
+        b.style.width = size + 'px';
+        b.style.height = size + 'px';
+        b.style.left = Math.random() * 100 + '%';
+        b.style.top = Math.random() * 100 + '%';
+        b.style.background = colors[Math.floor(Math.random() * colors.length)];
+        const dur = Math.random() * 8 + 6;
+        b.style.animationDuration = dur + 's';
+        b.style.animationDelay = (Math.random() * 1.5).toFixed(2) + 's';
+        b.style.setProperty('--scale', (Math.random() * 0.7 + 0.8).toFixed(2));
+        b.style.setProperty('--blur', (Math.random() * 1.5).toFixed(2) + 'px');
+        b.style.setProperty('--startX', (Math.random() * 200 - 100) + 'vw');
+        b.style.setProperty('--startY', (Math.random() * 200 - 100) + 'vh');
+        b.style.setProperty('--endX', (Math.random() * 200 - 100) + 'vw');
+        b.style.setProperty('--endY', (Math.random() * -200 - 100) + 'vh');
+        b.style.setProperty('--driftX', (Math.random() * 40 - 20) + 'px');
+        b.style.setProperty('--driftY', (Math.random() * 40 - 20) + 'px');
+        bubbles.appendChild(b);
+        bubbleCount++;
+        b.addEventListener('animationend', () => { b.remove(); bubbleCount--; });
+    }
+
+    bubbleInterval = setInterval(spawnBubble, 120);
+    for (let i = 0; i < 40; i++) spawnBubble();
+
+    // Botón rojo
+    const titulo = document.createElement('div');
+    Object.assign(titulo.style, {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'red',
+        color: 'white',
+        fontFamily: 'Arial, sans-serif',
+        fontSize: '1.2em',
+        fontWeight: 'bold',
+        padding: '6px 12px',
+        borderRadius: '6px',
+        marginBottom: '10px',
+        textAlign: 'center',
+        gap: '8px',
+        zIndex: '10002'
+    });
+
+    const icono = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    icono.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    icono.setAttribute('width', '22');
+    icono.setAttribute('height', '22');
+    icono.setAttribute('fill', 'white');
+    icono.setAttribute('viewBox', '0 0 24 24');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M21 17H3V5h18v12zm0-14H3c-1.1 0-2 .9-2 2v14h22V5c0-1.1-.9-2-2-2zm-6 18H9v2h6v-2z');
+    icono.appendChild(path);
+
+    const texto = document.createElement('span');
+    texto.innerText = 'ESTAMOS VIENDO';
+    titulo.appendChild(icono);
+    titulo.appendChild(texto);
+    modal.appendChild(titulo);
+
+    // Video
+    
+const video = document.createElement('video');
+Object.assign(video.style, {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    display: 'block'
+});
+video.controls = true;
+video.autoplay = true;
+
+const tvFrame = document.createElement('div');
+tvFrame.style.border = '8px solid #111';
+tvFrame.style.borderRadius = '15px';
+tvFrame.style.boxShadow = '0 0 25px rgba(0,0,0,0.8)';
+tvFrame.style.overflow = 'hidden';
+tvFrame.style.padding = '0';
+tvFrame.style.margin = '0';
+tvFrame.style.width = '90%';
+tvFrame.style.aspectRatio = '16 / 9';
+tvFrame.style.backgroundColor = 'black';
+tvFrame.style.display = 'inline-block';
+
+tvFrame.appendChild(video);
+modal.appendChild(tvFrame);
+
+// Contenedor de redes sociales debajo del video
+const redesContainer = document.createElement('div');
+redesContainer.style.display = 'flex';
+redesContainer.style.gap = '15px';
+redesContainer.style.marginTop = '15px';
+redesContainer.style.zIndex = '10002';
+redesContainer.style.justifyContent = 'center';
+
+// Lista de redes y enlaces
+const redes = [
+    { url: 'https://facebook.com/', icon: 'https://cdn-icons-png.flaticon.com/512/733/733547.png', title: 'Facebook' },
+    { url: 'https://instagram.com/', icon: 'https://cdn-icons-png.flaticon.com/512/2111/2111463.png', title: 'Instagram' },
+    { url: 'https://youtube.com', icon: 'https://cdn-icons-png.flaticon.com/512/1384/1384060.png', title: 'YouTube' },
+    { url: 'https://tiktok.com/', icon: 'https://cdn-icons-png.flaticon.com/512/3046/3046121.png', title: 'TikTok' },
+    { url: 'https://wa.me/', icon: 'https://cdn-icons-png.flaticon.com/512/733/733585.png', title: 'WhatsApp' }
+];
+
+redes.forEach(r => {
+    const a = document.createElement('a');
+    a.href = r.url;
+    a.target = '_blank';
+    a.title = r.title;
+    a.style.display = 'flex';
+    a.style.alignItems = 'center';
+    a.style.justifyContent = 'center';
+    a.style.width = '40px';
+    a.style.height = '40px';
+    a.style.backgroundColor = 'white';
+    a.style.borderRadius = '50%';
+    a.style.overflow = 'hidden';
+
+    const img = document.createElement('img');
+    img.src = r.icon;
+    img.style.width = '70%';
+    img.style.height = '70%';
+    img.style.objectFit = 'contain';
+
+    a.appendChild(img);
+    redesContainer.appendChild(a);
+});
+
+
+// Contenedor de redes sociales con fondo desenfocado
+const redesWrapper = document.createElement('div');
+redesWrapper.style.background = 'transparent';
+redesWrapper.style.backdropFilter = 'none';
+redesWrapper.style.borderRadius = '10px';
+redesWrapper.style.padding = '10px 20px';
+redesWrapper.style.display = 'flex';
+redesWrapper.style.justifyContent = 'center';
+redesWrapper.style.gap = '15px';
+redesWrapper.style.marginTop = '15px';
+redesWrapper.style.zIndex = '10002';
+
+redesWrapper.appendChild(redesContainer);
+modal.appendChild(redesWrapper);
+
+
+
+    
+
+
+    if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource('https://eu1.servers10.com:8081/8042/index.m3u8');
+        hls.attachMedia(video);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = 'https://eu1.servers10.com:8081/8042/index.m3u8';
+    }
+
+    // Cerrar modal
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+            if (contenedor) contenedor.style.filter = 'none';
+            if (bubbleInterval) clearInterval(bubbleInterval);
+            bubbles.replaceChildren();
+            if (audioPlayer && wasPlaying) audioPlayer.play();
+        }
+    });
+
+    document.body.appendChild(modal);
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('btnTV').addEventListener('click', abrirModalTV);
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const webSidePanel = document.getElementById('webSidePanel');
+    const webSideOverlay = document.getElementById('webSideOverlay');
+    const iframe = webSidePanel.querySelector('iframe');
+
+    function abrirEnPanel(url, mostrarCerrar = false) {
+    iframe.src = url;
+
+    // Botón de cerrar
+    if (mostrarCerrar) {
+        if (!document.getElementById('btnCerrarPanel')) {
+            const btnCerrar = document.createElement('button');
+            btnCerrar.id = 'btnCerrarPanel';
+            btnCerrar.innerHTML = '✖';
+            Object.assign(btnCerrar.style, {
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                zIndex: '3200',
+                background: 'red',
+                color: 'white',
+                border: 'none',
+                borderRadius: '50%',
+                width: '35px',
+                height: '35px',
+                fontSize: '18px',
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.3)'
+            });
+            btnCerrar.addEventListener('click', () => {
+                webSidePanel.classList.remove('abierto');
+                webSideOverlay.classList.remove('visible');
+                btnCerrar.remove();
+            });
+            webSidePanel.appendChild(btnCerrar);
+        }
+    } else {
+        const btnCerrarExistente = document.getElementById('btnCerrarPanel');
+        if (btnCerrarExistente) btnCerrarExistente.remove();
+    }
+
+    webSidePanel.classList.add('abierto');
+    webSideOverlay.classList.add('visible');
+} else {
+            const btnCerrarExistente = document.getElementById('btnCerrarPanel');
+            if (btnCerrarExistente) btnCerrarExistente.remove();
+        }
+        webSidePanel.classList.add('abierto');
+        webSideOverlay.classList.add('visible');
+    }
+
+    // Enlace "Nos califica"
+    const linkCalifica = document.querySelector('.menu-lista li a[href="https://radionaranjos.com"]');
+    if (linkCalifica) {
+        linkCalifica.addEventListener('click', function(e) {
+            e.preventDefault();
+            abrirEnPanel(this.href, true);
+        });
+    }
+
+    // Otros enlaces del menú
+    document.querySelectorAll('.menu-lista li a').forEach(a => {
+        if (a.href && a.href !== '#' && a.href !== 'https://radionaranjos.com"https://i.postimg.cc/nzVkBbwD/IMG-20251004-WA0085-1.jpg";
+  let triedOnce = false;
+
+  async function tryFetchCover() {
+    if (triedOnce) return;
+    const logo = document.querySelector(".logo");
+    if (!logo) return;
+
+    // Solo si seguimos con imagen por defecto
+    if (!logo.src || logo.src === DEFAULT_IMG || logo.src.includes("Picsart-25-08-11-10-00-40-603.jpg")) {
+      const artistaEl = document.getElementById("artista");
+      const cancionEl = document.getElementById("cancion");
+      const artista = (artistaEl && artistaEl.textContent || "").trim();
+      const cancion = (cancionEl && cancionEl.textContent || "").trim();
+
+      if (!artista || !cancion) return; // esperamos a tener ambos textos listos
+
+      try {
+        const q = encodeURIComponent(artista + " " + cancion);
+        const r = await fetch("https://itunes.apple.com/search?term=" + q + "&media=music&limit=1", { cache: "no-store" });
+        const j = await r.json();
+        if (j && j.results && j.results.length) {
+          const art100 = j.results[0].artworkUrl100;
+          if (art100) {
+            const _it = art100.replace("100x100bb", "512x512bb"); logo.src = _it; window.__lastCover = _it; const __menuLogo2 = document.querySelector(".menu-logo"); if (__menuLogo2) __menuLogo2.src = _it; if (window.__updateMediaSession) { window.__updateMediaSession({ title: (document.getElementById("cancion")||{}).textContent || "", artist: (document.getElementById("artista")||{}).textContent || "", artworkSrc: _it }); }
+            triedOnce = true;
+          }
+        }
+      } catch(e) {
+        console.debug("Fallback iTunes error:", e);
+      }
+    }
+  }
+
+  // Intento periódico suave; no interfiere con tu lógica
+  setInterval(tryFetchCover, 6000);
+  // Y un primer intento después de un breve tiempo (para que el DOM ya tenga textos)
+  setTimeout(tryFetchCover, 2500);
+})();
+</script>
+<script>
+// --- Media Session: helper para actualizar notificación del SO ---
+(function(){
+  if (!('mediaSession' in navigator)) return;
+
+  window.__updateMediaSession = function({ title, artist, artworkSrc }){
+    try {
+      const artSrc = artworkSrc || (document.querySelector('.logo') ? document.querySelector('.logo').src : '');
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: title || 'Radio Naranjos',
+        artist: artist || '',
+        album: 'Radio Naranjos',
+        artwork: artSrc ? [
+          { src: artSrc, sizes: '96x96',   type: 'image/png' },
+          { src: artSrc, sizes: '192x192', type: 'image/png' },
+          { src: artSrc, sizes: '512x512', type: 'image/png' }
+        ] : []
+      });
+    } catch(e){ console.debug('MediaSession metadata error:', e); }
+  };
+
+  // Controles (play/pause) desde la notificación del sistema
+  try {
+    const audio = document.getElementById('audioPlayer');
+    if (audio) {
+      navigator.mediaSession.setActionHandler('play',  () => audio.play().catch(()=>{}));
+      navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+      navigator.mediaSession.setActionHandler('stop',  () => audio.pause());
+      navigator.mediaSession.playbackState = 'playing';
+    }
+  } catch(e){ /* no-op */ }
+})();
+</script>
+<script>
+// Registrar Service Worker para PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./service-worker.js').catch(function(e){
+      console.log('SW registration failed:', e);
+    });
+  });
+}
+</script>
+<script>
+// Mantener .menu-logo siempre igual que .logo (por si cambian en otros lugares)
+(function(){
+  const logo = document.querySelector('.logo');
+  const menuLogo = document.querySelector('.menu-logo');
+  if (!logo || !menuLogo || !('MutationObserver' in window)) return;
+  const sync = () => { if (logo.src && menuLogo.src !== logo.src) menuLogo.src = logo.src; };
+  const mo = new MutationObserver(sync);
+  mo.observe(logo, { attributes: true, attributeFilter: ['src'] });
+  // primer sync al cargar
+  sync();
+})();
+</script>
+<div id="pwaInstallOverlay"></div><button id="pwaInstallFab"><img alt="Instalar" id="pwaFabImg"/></button><button id="pwaInstallClose">✕</button><script>
+// --- PWA Install logic (inyectado) ---
+(function(){
+  // Evitar duplicados
+  if (window.__pwa_install_injected__) return;
+  window.__pwa_install_injected__ = true;
+
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+                    || window.navigator.standalone
+                    || localStorage.getItem('pwa_installed') === '1';
+  if (isStandalone) return;
+
+  let deferredPrompt = null;
+  const overlay = document.getElementById('pwaInstallOverlay');
+  const fab = document.getElementById('pwaInstallFab');
+  const closeBtn = document.getElementById('pwaInstallClose');
+  const fabImg = document.getElementById('pwaFabImg');
+
+  // Reusar el mismo logo del player
+  function detectLogoSrc(){
+    // 1) Buscar imgs con 'logo' en id/clase/alt/src
+    let img = document.querySelector('img[id*=\"logo\" i], img[class*=\"logo\" i], img[alt*=\"logo\" i], img[src*=\"logo\" i], .logo img, img.logo');
+    if (img && img.src) return img.getAttribute('src') || img.src;
+    // 2) Favicon
+    let linkIcon = document.querySelector('link[rel=\"icon\"], link[rel=\"shortcut icon\"], link[rel=\"apple-touch-icon\"]');
+    if (linkIcon && linkIcon.href) return linkIcon.getAttribute('href') || linkIcon.href;
+    // 3) Manifest icons (mejor esfuerzo: no parseamos manifest)
+    // 4) Fallback
+    return 'logo.png';
+  }
+  const logoSrc = detectLogoSrc();
+  if (logoSrc) fabImg.setAttribute('src', logoSrc);
+
+  // Intentar desenfocar un contenedor principal si existe
+  const contenedor = document.querySelector('.contenedor, main, #app, .app, .wrapper, .container');
+
+  function showUI(){
+    overlay && overlay.classList.add('visible');
+    fab && fab.classList.add('visible');
+    closeBtn && closeBtn.classList.add('visible');
+    if (contenedor) {
+      contenedor.style.transition = 'filter .25s ease';
+      contenedor.style.filter = 'blur(14px)';
+    } else {
+      document.documentElement.style.transition = 'filter .25s ease';
+      document.documentElement.style.filter = 'blur(6px)';
+    }
+  }
+  function hideUI(){
+    overlay && overlay.classList.remove('visible');
+    fab && fab.classList.remove('visible');
+    closeBtn && closeBtn.classList.remove('visible');
+    if (contenedor) {
+      contenedor.style.filter = 'none';
+    } else {
+      document.documentElement.style.filter = 'none';
+    }
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    showUI();
+  });
+
+  fab.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    hideUI();
+    deferredPrompt.prompt();
+    try { await deferredPrompt.userChoice; } catch(_) {}
+    deferredPrompt = null;
+  });
+
+  overlay.addEventListener('click', hideUI);
+  closeBtn.addEventListener('click', hideUI);
+
+  window.addEventListener('appinstalled', () => {
+    localStorage.setItem('pwa_installed','1');
+    hideUI();
+  });
+})();
+</script><div id="pwaIosCard">
+<h3>Instalar en iPhone</h3>
+<div class="row small">Abre en <b>Safari</b>.</div>
+<ol class="small">
+<li>Toca el botón <b>Compartir</b> (cuadro con flecha hacia arriba).</li>
+<li>Elige <b>Añadir a pantalla de inicio</b>.</li>
+<li>Confirma con <b>Añadir</b>.</li>
+</ol>
+<div class="actions">
+<button class="btn-ghost" id="pwaIosClose">Entendido</button>
+</div>
+</div><script>
+// Registro del Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+  });
+}
+</script><script>
+(function(){
+  // Si es iOS (Safari), mostrar tarjeta con instrucciones al tocar el FAB
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  const fab = document.getElementById('pwaInstallFab');
+  const iosCard = document.getElementById('pwaIosCard');
+  const iosClose = document.getElementById('pwaIosClose');
+  const overlay = document.getElementById('pwaInstallOverlay');
+  const closeBtn = document.getElementById('pwaInstallClose');
+  const contenedor = document.querySelector('.contenedor, main, #app, .app, .wrapper, .container');
+
+  if (isIOS && !isStandalone) {
+    // Forzar a que el FAB sea visible en iOS ya que no hay beforeinstallprompt
+    fab && fab.classList.add('visible');
+    overlay && overlay.classList.add('visible');
+    closeBtn && closeBtn.classList.add('visible');
+    if (contenedor) { contenedor.style.filter = 'blur(14px)'; }
+    // Al hacer click en FAB, mostrar instrucciones
+    fab && fab.addEventListener('click', () => {
+      iosCard && iosCard.classList.add('visible');
+    });
+    iosClose && iosClose.addEventListener('click', () => {
+      iosCard && iosCard.classList.remove('visible');
+      // mantener FAB visible por si el usuario quiere reabrir
+    });
+  }
+})();
+</script>
+<button id="installButton" style="
+position: fixed;
+bottom: 20px;
+right: 20px;
+background-color: #000000;
+color: white;
+border: none;
+padding: 12px 20px;
+border-radius: 30px;
+font-size: 1em;
+cursor: pointer;
+box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+z-index: 99999;">📲 Instalar App</button>
+
+<script>
+let deferredPrompt;
+const installButton = document.getElementById('installButton');
+installButton.style.display = 'none';
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installButton.style.display = 'block';
+});
+
+installButton.addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      console.log('App instalada');
+    }
+    deferredPrompt = null;
+    installButton.style.display = 'none';
+  }
+});
+
+window.addEventListener('appinstalled', () => {
+  console.log('Radio Naranjos Radio instalada');
+});
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+    .then(() => console.log('Service Worker registrado.'));
+}
+</script>
+
+<script>
+async function actualizarMetadata() {
+  try {
+    // Obtener información de la canción
+    const infoRes = await fetch("https://streaming.hostpannel.lat:2020/AudioPlayer/8154/playerInfo?nocache=" + Date.now());
+    const infoData = await infoRes.json();
+
+    if (infoData.nowplaying) {
+      const partes = infoData.nowplaying.split(" - ");
+      if (partes.length >= 2) {
+        document.getElementById("artista").textContent = partes[0].trim();
+        document.getElementById("cancion").textContent = partes[1].trim();
+      } else {
+        document.getElementById("artista").textContent = "Radio Naranjos";
+        document.getElementById("cancion").textContent = infoData.nowplaying.trim();
+      }
+    } else {
+      document.getElementById("artista").textContent = "Radio Naranjos";
+      document.getElementById("cancion").textContent = "Transmitiendo en vivo...";
+    }
+
+    // Obtener carátula
+    // [Removido código de carátula automática]
+
+  } catch (e) {
+    console.error("Error al actualizar metadata:", e);
+  }
+}
+
+setInterval(actualizarMetadata, 10000);
+</script>
+
+</body>
+</html>
