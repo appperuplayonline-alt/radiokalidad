@@ -2557,6 +2557,11 @@ async function actualizarTodo() {
           artist: artista,
           album: 'Radio Kalidad',
           artwork: [
+    const logo = document.getElementById("logoPrincipal");
+    art.style.display = "none";
+    logo.style.display = "block";
+  }
+}
             { src: art.src && art.style.display !== "none" ? art.src : logo.src, sizes: '512x512', type: 'image/png' }
           ]
         });
@@ -2571,11 +2576,6 @@ async function actualizarTodo() {
     if (artistaEl) artistaEl.textContent = "Sin conexión";
     if (cancionEl) cancionEl.textContent = "";
     const art = document.getElementById("art");
-    const logo = document.getElementById("logoPrincipal");
-    art.style.display = "none";
-    logo.style.display = "block";
-  }
-}
 actualizarTodo();
 setInterval(actualizarTodo, 10000);
 
@@ -2691,28 +2691,42 @@ document.addEventListener("DOMContentLoaded", function() {
     };
   }
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const art = document.getElementById("art");
+  const logo = document.getElementById("logoPrincipal");
+
+  let ultimaCaratula = "";
+
+  function verificarCaratula() {
+    if (!art || !logo) return;
+
+    const actual = art.src ? art.src.trim() : "";
+    if (actual === ultimaCaratula) return; // no cambia nada si es la misma
+    ultimaCaratula = actual;
+
+    // Si la imagen no existe o es una "portada" genérica
+    if (
+      !actual ||
+      actual.includes("nocover") ||
+      actual.includes("noimage") ||
+      actual.includes("portada") ||
+      actual.includes("default") ||
+      actual === window.location.href
+    ) {
+      art.style.display = "none";
+      logo.style.display = "block";
+    } else {
+      art.style.display = "block";
+      logo.style.display = "none";
+    }
+  }
+
   verificarCaratula();
   setInterval(verificarCaratula, 5000);
 });
 </script>
-<!-- ================== SCRIPT PARA MOSTRAR LOGO SI NO HAY CARÁTULA ================== -->
-  <script></script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const art = document.getElementById("art");
-    const logo = document.getElementById("logoPrincipal");
 
-    // Comprobar cada 3 segundos si hay carátula
-    setInterval(() => {
-      if (!art || !logo) return;
-      const noCover = !art.src || art.src.includes("nocover") || art.style.display === "none";
-      if (noCover) {
-        logo.style.display = "block";
-        art.style.display = "none";
-      }
-    }, 3000);
-  });
-</script>
-  <!-- ================== FIN DEL SCRIPT ================== -->
   
 </body>
 </html>
