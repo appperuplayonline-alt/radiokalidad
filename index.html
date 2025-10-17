@@ -2,23 +2,6 @@
 
 <html lang="es">
 <head>
-  <!-- ==================== AJUSTES DE COLOR AZUL BRILLANTE ==================== -->
-<meta name="theme-color" content="#007BFF">
-<meta name="msapplication-TileColor" content="#007BFF">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#007BFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#007BFF" media="(prefers-color-scheme: dark)">
-<meta name="color-scheme" content="light dark">
-<link rel="manifest" href="manifest.webmanifest">
-<meta name="background-color" content="#007BFF">
-<meta name="color-scheme" content="light">
-<style>
-  html {
-    background-color: #007BFF;
-  }
-</style>
-<!-- ================== FIN DE AJUSTES DE COLOR AZUL BRILLANTE ================== -->
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
@@ -28,7 +11,7 @@
         margin: 0;
         padding: 0;
         height: 100%;
-        background: #3527F5;
+        background: #000;
         overflow: hidden;
     }
     .contenedor {
@@ -112,7 +95,7 @@
         z-index: 3;
         width: 25vw;
         height: 25vw;
-        background:#3527F5;
+        background:#000000;
         border: 3px solid white;
         border-radius: 50%;
         display: flex;
@@ -1344,8 +1327,7 @@ video { object-fit: cover; transform: scale(1.25); transition: transform 0.3s ea
 
 
 </style><meta content="#111111" name="msapplication-TileColor"/><style>
-<meta name="theme-color" content="#007BFF"/>
-    /* iOS instruction panel */
+/* iOS instruction panel */
 #pwaIosCard{
   position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
   width:min(92vw,520px); max-width:92vw;
@@ -2557,11 +2539,6 @@ async function actualizarTodo() {
           artist: artista,
           album: 'Radio Kalidad',
           artwork: [
-    const logo = document.getElementById("logoPrincipal");
-    art.style.display = "none";
-    logo.style.display = "block";
-  }
-}
             { src: art.src && art.style.display !== "none" ? art.src : logo.src, sizes: '512x512', type: 'image/png' }
           ]
         });
@@ -2576,6 +2553,11 @@ async function actualizarTodo() {
     if (artistaEl) artistaEl.textContent = "Sin conexión";
     if (cancionEl) cancionEl.textContent = "";
     const art = document.getElementById("art");
+    const logo = document.getElementById("logoPrincipal");
+    art.style.display = "none";
+    logo.style.display = "block";
+  }
+}
 actualizarTodo();
 setInterval(actualizarTodo, 10000);
 
@@ -2691,42 +2673,87 @@ document.addEventListener("DOMContentLoaded", function() {
     };
   }
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const art = document.getElementById("art");
-  const logo = document.getElementById("logoPrincipal");
-
-  let ultimaCaratula = "";
-
-  function verificarCaratula() {
-    if (!art || !logo) return;
-
-    const actual = art.src ? art.src.trim() : "";
-    if (actual === ultimaCaratula) return; // no cambia nada si es la misma
-    ultimaCaratula = actual;
-
-    // Si la imagen no existe o es una "portada" genérica
-    if (
-      !actual ||
-      actual.includes("nocover") ||
-      actual.includes("noimage") ||
-      actual.includes("portada") ||
-      actual.includes("default") ||
-      actual === window.location.href
-    ) {
-      art.style.display = "none";
-      logo.style.display = "block";
-    } else {
-      art.style.display = "block";
-      logo.style.display = "none";
-    }
-  }
-
   verificarCaratula();
   setInterval(verificarCaratula, 5000);
 });
 </script>
 
-  
+
+<script>
+(function () {
+  const titleEl  = document.getElementById('cancion')  || document.getElementById('titulo')  || document.getElementById('songtitle');
+  const artistEl = document.getElementById('artista')  || document.getElementById('author')  || document.getElementById('interprete');
+  const artImg   = document.getElementById('art')      || document.querySelector('.portada img') || document.querySelector('.cover img');
+  if(!artImg){ console.warn('[portada] No encuentro <img id="art">'); return; }
+
+  const STATE = { lastGood: artImg.src || '', lastReq: '', loadId: 0 };
+
+  function preload(url, t=8000){
+    return new Promise((ok, err) => {
+      if(!url) return err(new Error('url vacía'));
+      const img = new Image(); let done = false;
+      const to = setTimeout(()=>{ if(!done){ done=true; err(new Error('timeout')); }}, t);
+      img.onload  = ()=>{ if(done) return; done=true; clearTimeout(to); ok(url); };
+      img.onerror = ()=>{ if(done) return; done=true; clearTimeout(to); err(new Error('error')); };
+      img.crossOrigin = 'anonymous';
+      img.referrerPolicy = 'no-referrer';
+      img.src = url;
+    });
+  }
+
+  async function getCover(artist, title){
+    const q = `${(artist||'').trim()} ${(title||'').trim()}`.toLowerCase();
+    if(!q) return '';
+    const r = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&limit=1`, {cache:'no-store'});
+    const data = await r.json();
+    const it = (data.results && data.results[0]) || null;
+    let u = it && (it.artworkUrl100 || it.artworkUrl60) || '';
+    return u ? u.replace('100x100bb','512x512bb').replace('60x60bb','512x512bb') : '';
+  }
+
+  let debounce;
+  function update() {
+    clearTimeout(debounce);
+    debounce = setTimeout(async () => {
+      const artist = artistEl ? artistEl.textContent.trim() : '';
+      const title  = titleEl  ? titleEl.textContent.trim()  : '';
+      const key = `${artist} - ${title}`;
+      if(!artist && !title) return;
+      if(key === STATE.lastReq) return;
+      STATE.lastReq = key;
+
+      try {
+        const url = await getCover(artist, title);
+        const toApply = url || STATE.lastGood || artImg.src;
+        const loadId = ++STATE.loadId;
+        await preload(toApply);
+        if(loadId !== STATE.loadId) return;
+        artImg.decoding = 'async';
+        artImg.crossOrigin = 'anonymous';
+        artImg.referrerPolicy = 'no-referrer';
+        artImg.src = toApply;
+        STATE.lastGood = toApply;
+
+        if('mediaSession' in navigator){
+          try{
+            navigator.mediaSession.metadata = new MediaMetadata({
+              title: title || 'Radio',
+              artist: artist || '',
+              artwork: [{ src: toApply, sizes: '512x512', type: 'image/jpeg' }]
+            });
+          }catch(_){}
+        }
+      } catch(_) {
+        if(STATE.lastGood) artImg.src = STATE.lastGood;
+      }
+    }, 150);
+  }
+
+  const mo = new MutationObserver(update);
+  if(titleEl)  mo.observe(titleEl,  {childList:true, subtree:true, characterData:true});
+  if(artistEl) mo.observe(artistEl, {childList:true, subtree:true, characterData:true});
+  setTimeout(update, 600);
+})();
+</script>
 </body>
 </html>
