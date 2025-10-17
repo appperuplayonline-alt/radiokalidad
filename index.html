@@ -643,19 +643,9 @@ object-fit: cover; object-position: center;}
     height: 10vw;
 }
 
-@media (max-width: 400px) {
-    .redes-sociales a {
-        width: 12vw; /* antes 9vw */
-        height: 12vw;
-    }
-}
 
-@media (min-width: 768px) {
-    .redes-sociales a {
-        width: 9vw; /* antes 7vw */
-        height: 9vw;
-    }
-}
+
+
 
 
 
@@ -819,31 +809,10 @@ video { object-fit: cover; transform: scale(1.25); transition: transform 0.3s ea
 
 
 /* === Redes sociales responsivas === */
-@media (max-width: 480px) {
-  .redes-sociales {
-    flex-direction: row;
-    bottom: 5vh;
-    left: 50%;
-    transform: translateX(-50%);
-    gap: 10px;
-  }
-  .redes-sociales a {
-    width: 10vw;
-    height: 10vw;
-  }
+
 }
-@media (min-width: 768px) {
-  .redes-sociales a {
-    width: 6vw;
-    height: 6vw;
-  }
-}
-@media (min-width: 1200px) {
-  .redes-sociales a {
-    width: 5vw;
-    height: 5vw;
-  }
-}
+
+
 
 
 /* === Metadata (artista y canción) responsiva === */
@@ -997,6 +966,114 @@ video { object-fit: cover; transform: scale(1.25); transition: transform 0.3s ea
 }
 
 
+
+/* --- Redes sociales fijas y perfectamente circulares (sin responsive) --- */
+.redes-sociales {
+  position: fixed;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 9999;
+}
+
+.redes-sociales a {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 3px solid white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+.redes-sociales a img {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+}
+
+
+/* --- Íconos de redes sociales más pequeños (35px) --- */
+.redes-sociales a {
+  width: 35px !important;
+  height: 35px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: white !important;
+  border: 2px solid white !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25) !important;
+  overflow: hidden !important;
+}
+
+.redes-sociales a img {
+  width: 65% !important;
+  height: 65% !important;
+  object-fit: contain !important;
+}
+
+
+/* --- Íconos de redes sociales (50px) --- */
+.redes-sociales a {
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: white !important;
+  border: 2px solid white !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25) !important;
+  overflow: hidden !important;
+}
+
+.redes-sociales a img {
+  width: 65% !important;
+  height: 65% !important;
+  object-fit: contain !important;
+}
+
+
+/* --- Restaurar ondas circulares en los íconos --- */
+.redes-sociales a {
+  position: relative;
+  overflow: visible !important;
+}
+
+.redes-sociales a::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.4);
+  animation: ondaCircular 2s ease-out infinite;
+  z-index: -1;
+}
+
+@keyframes ondaCircular {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 </style>
 <script>
 window.__lastCover = window.__lastCover || "";
@@ -1092,31 +1169,10 @@ video { object-fit: cover; transform: scale(1.25); transition: transform 0.3s ea
 
 
 /* === Redes sociales responsivas === */
-@media (max-width: 480px) {
-  .redes-sociales {
-    flex-direction: row;
-    bottom: 5vh;
-    left: 50%;
-    transform: translateX(-50%);
-    gap: 10px;
-  }
-  .redes-sociales a {
-    width: 10vw;
-    height: 10vw;
-  }
+
 }
-@media (min-width: 768px) {
-  .redes-sociales a {
-    width: 6vw;
-    height: 6vw;
-  }
-}
-@media (min-width: 1200px) {
-  .redes-sociales a {
-    width: 5vw;
-    height: 5vw;
-  }
-}
+
+
 
 
 /* === Metadata (artista y canción) responsiva === */
@@ -1339,31 +1395,10 @@ video { object-fit: cover; transform: scale(1.25); transition: transform 0.3s ea
 
 
 /* === Redes sociales responsivas === */
-@media (max-width: 480px) {
-  .redes-sociales {
-    flex-direction: row;
-    bottom: 5vh;
-    left: 50%;
-    transform: translateX(-50%);
-    gap: 10px;
-  }
-  .redes-sociales a {
-    width: 10vw;
-    height: 10vw;
-  }
+
 }
-@media (min-width: 768px) {
-  .redes-sociales a {
-    width: 6vw;
-    height: 6vw;
-  }
-}
-@media (min-width: 1200px) {
-  .redes-sociales a {
-    width: 5vw;
-    height: 5vw;
-  }
-}
+
+
 
 
 /* === Metadata (artista y canción) responsiva === */
@@ -1517,7 +1552,74 @@ video { object-fit: cover; transform: scale(1.25); transition: transform 0.3s ea
 }
 
 
-</style><link href="manifest.webmanifest" rel="manifest"/><meta content="#000000" name="theme-color"/></head>
+</style><link href="manifest.webmanifest" rel="manifest"/><meta content="#000000" name="theme-color"/>
+<style>
+/* === Redes sociales siempre vertical, solo cambia tamaño === */
+.redes-sociales {
+  position: absolute;
+  top: 70%;
+  left: 10px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 20;
+}
+.redes-sociales a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  border: 3px solid white;
+  overflow: hidden;
+}
+.redes-sociales a img {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+}
+
+/* Tamaños responsivos */
+
+
+
+
+</style>
+
+<meta name="theme-color" content="#007BFF"/>
+<meta name="msapplication-TileColor" content="#007BFF"/>
+
+<link rel="manifest" href="manifest.webmanifest">
+<script>
+(async function(){
+  try {
+    const manifest = {
+      "name": "Radio Kalidad",
+      "short_name": "Radio Kalidad",
+      "start_url": ".",
+      "display": "standalone",
+      "theme_color": "#007BFF",
+      "background_color": "#007BFF",
+      "icons": [
+        { "src": "https://i.postimg.cc/4xc5B8fH/IMG-20251015-WA0090.jpg", "sizes": "192x192", "type": "image/png" }
+      ]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
+    const url = URL.createObjectURL(blob);
+    let link = document.querySelector('link[rel="manifest"]');
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'manifest';
+      document.head.appendChild(link);
+    }
+    link.href = url;
+  } catch(e) { console.log(e); }
+})();
+</script>
+
+</head>
 <body>
 <div class="web-side-panel" id="webSidePanel">
 <div class="web-side-close-layer" id="webSideCloseLayer"></div>
@@ -2460,5 +2562,121 @@ actualizarTodo();
 setInterval(actualizarTodo, 10000);
 
 });
-</script></body>
+</script>
+<script>
+// --- Mostrar logo del proyecto solo cuando no haya carátula real o sea inválida ---
+document.addEventListener("DOMContentLoaded", function() {
+  const art = document.getElementById("art");
+  const logo = document.getElementById("logoPrincipal");
+
+  function esColorUniforme(img) {
+    try {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = 8; canvas.height = 8;
+      ctx.drawImage(img, 0, 0, 8, 8);
+      const data = ctx.getImageData(0, 0, 8, 8).data;
+      const [r0, g0, b0] = data;
+      for (let i = 0; i < data.length; i += 4) {
+        const dr = Math.abs(data[i] - r0);
+        const dg = Math.abs(data[i+1] - g0);
+        const db = Math.abs(data[i+2] - b0);
+        if (dr > 15 || dg > 15 || db > 15) return false;
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function verificarCaratula() {
+    if (!art || !logo) return;
+    const src = art.getAttribute("src") || "";
+    if (!src || src.includes("nocover") || src.includes("noimage") || src.includes("default")) {
+      art.style.display = "none";
+      logo.style.display = "block";
+      return;
+    }
+    const imgTemp = new Image();
+    imgTemp.crossOrigin = "Anonymous";
+    imgTemp.src = src + "?v=" + Date.now();
+    imgTemp.onload = function() {
+      if (esColorUniforme(imgTemp)) {
+        art.style.display = "none";
+        logo.style.display = "block";
+      } else {
+        art.style.display = "block";
+        logo.style.display = "none";
+      }
+    };
+    imgTemp.onerror = function() {
+      art.style.display = "none";
+      logo.style.display = "block";
+    };
+  }
+
+  verificarCaratula();
+  setInterval(verificarCaratula, 5000);
+});
+</script>
+
+
+<script>
+// --- Mostrar logo del proyecto cuando la carátula no es válida, está rota o es de un solo color ---
+document.addEventListener("DOMContentLoaded", function() {
+  const art = document.getElementById("art");
+  const logo = document.getElementById("logoPrincipal");
+
+  function esColorUniforme(img) {
+    try {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = 8; canvas.height = 8;
+      ctx.drawImage(img, 0, 0, 8, 8);
+      const data = ctx.getImageData(0, 0, 8, 8).data;
+      const [r0, g0, b0] = data;
+      for (let i = 0; i < data.length; i += 4) {
+        const dr = Math.abs(data[i] - r0);
+        const dg = Math.abs(data[i+1] - g0);
+        const db = Math.abs(data[i+2] - b0);
+        if (dr > 15 || dg > 15 || db > 15) return false;
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function verificarCaratula() {
+    if (!art || !logo) return;
+    const src = art.getAttribute("src") || "";
+    if (!src || src.includes("nocover") || src.includes("noimage") || src.includes("default") || src.includes("portada")) {
+      art.style.display = "none";
+      logo.style.display = "block";
+      return;
+    }
+    const imgTemp = new Image();
+    imgTemp.crossOrigin = "Anonymous";
+    imgTemp.src = src + "?v=" + Date.now();
+    imgTemp.onload = function() {
+      if (esColorUniforme(imgTemp)) {
+        art.style.display = "none";
+        logo.style.display = "block";
+      } else {
+        art.style.display = "block";
+        logo.style.display = "none";
+      }
+    };
+    imgTemp.onerror = function() {
+      art.style.display = "none";
+      logo.style.display = "block";
+    };
+  }
+
+  verificarCaratula();
+  setInterval(verificarCaratula, 5000);
+});
+</script>
+
+</body>
 </html>
