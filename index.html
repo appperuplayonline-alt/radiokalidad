@@ -2695,6 +2695,24 @@ document.addEventListener("DOMContentLoaded", function() {
   setInterval(verificarCaratula, 5000);
 });
 </script>
+<!-- ================== SCRIPT PARA MOSTRAR LOGO SI NO HAY CARÁTULA ================== -->
+  <script></script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const art = document.getElementById("art");
+    const logo = document.getElementById("logoPrincipal");
 
+    // Comprobar cada 3 segundos si hay carátula
+    setInterval(() => {
+      if (!art || !logo) return;
+      const noCover = !art.src || art.src.includes("nocover") || art.style.display === "none";
+      if (noCover) {
+        logo.style.display = "block";
+        art.style.display = "none";
+      }
+    }, 3000);
+  });
+</script>
+  <!-- ================== FIN DEL SCRIPT ================== -->
+  
 </body>
 </html>
